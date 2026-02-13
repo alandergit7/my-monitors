@@ -1,0 +1,43 @@
+name: Monitor crabby-rathbun Repo
+
+on:
+  schedule:
+    - cron: "0 * * * *"  # Runs every hour
+  workflow_dispatch:  # Lets you trigger it manually
+
+jobs:
+  monitor-issues:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Monitor New Issues
+        uses: shubhaamgupta11/repo-monitor@v1.0.4
+        with:
+          task: "monitor-issues"
+          git_secret: "${{ secrets.GIT_SECRET }}"
+          notifier: "discord"
+          fetch_data_interval: 1
+          repo_owner: "crabby-rathbun"
+          repo_name: "crabby-rathbun"
+          discord_webhook_url: "${{ secrets.DISCORD_WEBHOOK_URL }}"
+
+  monitor-prs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Monitor New PRs
+        uses: shubhaamgupta11/repo-monitor@v1.0.4
+        with:
+          task: "monitor-prs"
+          git_secret: "${{ secrets.GIT_SECRET }}"
+          notifier: "discord"
+          fetch_data_interval: 1
+          repo_owner: "crabby-rathbun"
+          repo_name: "crabby-rathbun"
+          discord_webhook_url: "${{ secrets.DISCORD_WEBHOOK_URL }}"
